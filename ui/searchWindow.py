@@ -1,5 +1,6 @@
-from course.course import Course
-from PyQt4 import QtGui, QtCore, uic
+from PyQt4 import QtGui, uic
+
+from course import Course
 
 
 class SearchWindow(QtGui.QMainWindow):
