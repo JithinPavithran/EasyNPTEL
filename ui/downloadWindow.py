@@ -62,8 +62,8 @@ class DownloadWindow(QtGui.QMainWindow):
     @pyqtSlot(int, int, int, int)
     def updateProgressSlot(self, number, size, tot, index):
         print "number=", number, " index=", index
-        # self.chapterTable.cellWidget(index, 1).setValue(
-        #     number * size * 100 / tot)
+        self.chapterTable.cellWidget(index, 1).setValue(
+            number * size * 100 / tot)
 
     def populateCourseList(self):
         print "Hai"
