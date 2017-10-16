@@ -8,5 +8,4 @@ This project is aimed at making the NPTEL course videos downloads easy.
 _The command line version of the project is now removed from github.
 The new version will be a UI based software._   
 
-**-- Download modules yet to be added --**  
-**-- Under Development --**
+**-- Beta Binaries for linux and windows will be up soon --**
