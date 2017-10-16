@@ -9,10 +9,14 @@ class Download(QThread):
         self.fileName = file_name
         self.id = index
         self.ProgressFunction = update_progress
+        self.last_index = -1    # index of last file being downloaded.
 
     def run(self):
         print ("Running Thread url: " + str(self.url)
                + "\n\t\tfile name: " + str(self.fileName))
         testfile = urllib.URLopener()
         testfile.retrieve(self.url, self.fileName, self.ProgressFunction)
+
+    def stopThread(self):
+        self.terminate()
 

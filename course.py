@@ -14,22 +14,20 @@ class Course(object):
 
     def getChapterList(self, course_no):
         self.courseNo = course_no
-        try:
-            print "Sending request..."
-            page = urllib.urlopen(COURSE_PAGE_URL + "/" + str(course_no))
-            print "Got response"
-            soup = BeautifulSoup(page, "html.parser")
-            print "parsing HTML page for chapters and course name"
-            self.chapterList = BeautifulSoup(
-                str(soup.find("div", id="div_lm")), "html.parser"
-            ).findAll('a', {"onclick": True})
+        page = urllib.urlopen(COURSE_PAGE_URL + "/" + str(course_no) + "/")
+        if page.code != 200:
+            raise ValueError("Invalid response from server", page.code)
 
-            self.courseName = BeautifulSoup(
-                str(soup.find("ul", id="breadcrumbs-course")),
-                "html.parser").findAll('li')[2].text
+        soup = BeautifulSoup(page, "html.parser")
+        self.chapterList = BeautifulSoup(
+            str(soup.find("div", id="div_lm")), "html.parser"
+        ).findAll('a', {"onclick": True})
+        if len(self.chapterList) < 1:
+            raise ValueError("Empty chapter list")
 
-        except Exception, e:
-            print e
+        self.courseName = BeautifulSoup(
+            str(soup.find("ul", id="breadcrumbs-course")),
+            "html.parser").findAll('li')[2].text
 
         return [a.getText() for a in self.chapterList]
 
