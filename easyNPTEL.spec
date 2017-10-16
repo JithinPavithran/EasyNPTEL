@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['easyNPTEL.py'],
-             pathex=['Z:\\home\\jithin\\Documents\\projects\\EasyNPTEL'],
+             pathex=['/home/jithin/Documents/projects/EasyNPTEL'],
              binaries=[],
              datas=[],
              hiddenimports=[],

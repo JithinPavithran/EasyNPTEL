@@ -4,6 +4,9 @@ from PyQt4.QtGui import QIntValidator, QTableWidgetItem,\
     QTableWidgetSelectionRange, QProgressBar, QWidget
 from PyQt4.QtCore import pyqtSignal, pyqtSlot
 from PyQt4.QtGui import QMessageBox
+import os
+
+from PyQt4.QtGui import QFileDialog
 
 from course import Course
 from download import Download
@@ -35,6 +38,7 @@ class DownloadWindow(QtGui.QMainWindow):
         self.ui.courseNo.setFocus()
         self.ui.courseNo.paste()
         self.autoSearch()
+        self.ui.folderLE.setText(os.getcwd())
 
     def setupSignals(self):
         self.ui.courseNo.returnPressed.connect(self.ui.searchBtn.click)
@@ -42,6 +46,7 @@ class DownloadWindow(QtGui.QMainWindow):
         self.ui.downloadBtn.clicked.connect(self.downloadBtnClicked)
         self.ui.stopBtn.clicked.connect(self.stopAllDownloads)
         self.ui.stopSelectionBtn.clicked.connect(self.stopDownloads)
+        self.ui.folderBrowse.clicked.connect(self.browseFolder)
         self.updateProgress.connect(self.updateProgressSlot)
 
     def downloadBtnClicked(self):
@@ -58,7 +63,7 @@ class DownloadWindow(QtGui.QMainWindow):
             self.ui.chapterTable.setCellWidget(i, 1, pg)
             self.threads.append(
                 Download(self.course.getMp4UrlMirror1(i),
-                         "test/"+self.course.getFileName(i, "mp4"),
+                         os.path.join(str(self.ui.folderLE.text()), self.course.getFileName(i, "mp4")),
                          i,
                          lambda index, size, tot, i=i : self.updateProgress.emit(index, size, tot, i)
                          )
@@ -81,8 +86,11 @@ class DownloadWindow(QtGui.QMainWindow):
 
     @pyqtSlot(int, int, int, int)
     def updateProgressSlot(self, number, size, tot, index):
+        if tot==0:
+            print "Zero sized file received!\nServer might be down."
+            return 
         print "number=", number, " index=", index
-        self.chapterTable.cellWidget(index, 1).setValue(
+        self.ui.chapterTable.cellWidget(index, 1).setValue(
             number * size * 100 / tot)
 
     def populateCourseList(self):
@@ -104,4 +112,12 @@ class DownloadWindow(QtGui.QMainWindow):
         for i in range(len(chapter_list)):
             self.ui.chapterTable.setItem(i, 0, QTableWidgetItem(chapter_list[i]))
         self.ui.courseNameLabel.setText(self.course.getCourseName())
+
+    def browseFolder(self):
+        dialog = QtGui.QFileDialog(self)
+        dialog.setFileMode(QtGui.QFileDialog.Directory)
+        dialog.setDirectory(self.ui.folderLE.text())
+        dialog.exec_()
+        self.ui.folderLE.setText(dialog.selectedFiles()[0])
+
 
