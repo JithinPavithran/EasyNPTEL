@@ -24,5 +24,5 @@ exe = EXE(pyz,
           name='easyNPTEL',
           debug=False,
           strip=False,
-          upx=True,
-          console=True )
+          upx=False,
+          console=False )

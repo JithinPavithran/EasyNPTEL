@@ -24,6 +24,7 @@ class DownloadWindow(QtGui.QMainWindow):
 
     def setup(self):
         self.ui.reportBtn.setEnabled(False)
+        self.ui.downloadBtn.setEnabled(False)
         self.ui.stopSelectionBtn.setEnabled(False)
         self.ui.courseNo.setValidator(QIntValidator(99999999, 1000000000))
         self.ui.courseNo.setFocus()
@@ -51,19 +52,22 @@ class DownloadWindow(QtGui.QMainWindow):
         # "selected_range" is a list of positions in table
         print "{} items selected".format(len(selected_range))
         for i in selected_range:
-            index = i
-            file = DownloadFile(self.course.getMp4UrlMirror(index),
-                                self.get_file_path(index),
-                                index,
-                                lambda index, size, tot, i=index:
-                                    self.updateProgress.emit(
-                                        index, size, tot, i))
-            pg = QProgressBar()
-            pg.setRange(0, 100)
-            pg.setValue(0)
-            self.ui.chapterTable.setCellWidget(i, 1, pg)
-            self.downloadQueue.addToQueue(file)
-            print file.fileName + " Added to download queue"
+            try:
+                index = i
+                file = DownloadFile(self.course.getMp4UrlMirror(index),
+                                    self.get_file_path(index),
+                                    index,
+                                    lambda index, size, tot, i=index:
+                                        self.updateProgress.emit(
+                                            index, size, tot, i))
+                pg = QProgressBar()
+                pg.setRange(0, 100)
+                pg.setValue(0)
+                self.ui.chapterTable.setCellWidget(i, 1, pg)
+                self.downloadQueue.addToQueue(file)
+                print file.fileName + " Added to download queue"
+            except Exception as e:
+                pass
 
         self.ui.downloadBtn.setText("Start Download")
         self.ui.downloadBtn.setEnabled(True)
@@ -101,6 +105,7 @@ class DownloadWindow(QtGui.QMainWindow):
         self.populateCourseList()
         self.ui.searchBtn.setText("Search")
         self.ui.searchBtn.setEnabled(True)
+        self.ui.downloadBtn.setEnabled(True)
         QtGui.QApplication.processEvents()
 
     def populateCourseList(self, suppress_error=False):

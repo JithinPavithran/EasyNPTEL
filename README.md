@@ -10,4 +10,4 @@ Get it here:<br/>
 [How to use](https://jithinpavithran.wordpress.com/2016/12/03/easy-nptel/)
 
 Build binary using <br/>
-`pyinstaller --onefile easyNPTEL.py`
+`pyinstaller --onefile --noupx --noconsole easyNPTEL.py`
