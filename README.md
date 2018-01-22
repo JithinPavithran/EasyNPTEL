@@ -2,11 +2,12 @@
 
 ***Making NPTEL Downloads easy.***  
 
-It's tedious when you have to download all/many videos from an NPTEL course.
+It's tedious when you have to download all/many videos from an NPTEL course at a stretch to make a offline copy.
 This project is aimed at making the NPTEL course videos downloads easy.
 
-_The command line version of the project is now removed from github.
-The new version will be a UI based software._   
+Get it here:<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; [Download Binary for Linux](https://drive.google.com/file/d/1fnEnfGbSW1DnpWWKPoC1Fc3_4HcHxRDb/view?usp=sharing)<br/>
+[How to use](https://jithinpavithran.wordpress.com/2016/12/03/easy-nptel/)
 
-**-- Download modules yet to be added --**  
-**-- Under Development --**
+Build binary using <br/>
+`pyinstaller --onefile easyNPTEL.py`
