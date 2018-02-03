@@ -63,7 +63,7 @@ class Course(object):
 
     def getFileName(self, index, extension="mp4"):
         return (str(index + 1).zfill(2) + "-"
-            + str(self.getChapterName(index)) + "." + extension)
+            + str(self.getChapterName(index).replace('/', '-')) + "." + extension)
 
     def getChapterName(self, index):
         return self.chapterList[index].getText() \
